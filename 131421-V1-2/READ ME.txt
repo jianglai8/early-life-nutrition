@@ -1,0 +1,110 @@
+*********
+*READ ME*
+*********
+
+The code in this replication package constructs the analysis file from the data sources (Carneiro et al, 2020) using Stata and Excel and R. 
+One master file runs all of the code to generate the data for the main paper and appendix tables and figures. 
+In table 9, the excel is used to make additional calculations
+In table A16 an additional R script is used to make calculations. The R script and materials are provided.
+The replicator should expect the code to run for about 2-6 hours.
+
+The survey data used to support the findings of this study have been deposited in the [NAME] repository 
+([DOI or OTHER PERSISTENT IDENTIFIER]). [1]. 
+The data were collected by the authors, and are available under a Creative Commons Non-commercial license.
+
+Additional data sources used:
+"Data on National Income and Product Accounts (NIPA) were downloaded from the U.S. 
+Bureau of Economic Analysis (BEA, 2016). We use Table 30. 
+Data can be downloaded from https://apps.bea.gov/regional/downloadzip.cfm, under “Personal Income (State and Local)”, 
+select CAINC30: Economic Profile by County, then download. 
+Data can also be directly downloaded using https://apps.bea.gov/regional/zip/CAINC30.zip. 
+A copy of the data is provided as part of this archive. The data are in the public domain."
+
+1. Convertion from Nigerian to US
+2. WHO
+3. Geocodes?
+4. Data for motivation
+
+* MASTER.do runs all do files necessary to produce results, with 2 exceptions (that are noted in the MASTER.do)
+	* 1. additional calculations are made in excel for the IRR calculations, spreadsheet is provided with replication files 
+	* 2. STATA prepares data to be used in R for the romano wolf calculations, the R code for this provided with replication files
+
+* ado files needed to run some of the do files are provided, store them in C:\ado :
+-> efftab, efftabbl, efftab_t1t2, t_bootstrap, tabrrd, prncoef, tereg_t1t2, teregbl
+
+* necessary programs that need to be downloaded (the code to download them is included in MASTER.do)
+-> carryforward
+-> egenmore
+-> estadd
+-> listtab
+-> rlasso
+-> utrim
+-> ineqdeco
+-> eststo
+-> cdfplot
+-> distinct
+
+* please add your username where currently it says 'lucy_k' and add the directory where the folder in use
+
+* add the global for where the do files are saved, for where data is saved, for where outputs want to be stored in the MASTER.do
+
+* you can also run an individual do file and set the folder path in the same way within that do file 
+	* - you will need to add  'maxvar 20000' and 'clear all' at the begining of the do file
+	
+
+
+******************************************
+* Output
+******************************************
+
+Folders have been created in 'Output' where the output will be exported to from the do files.
+
+******************************************
+* Do file mapping to tables and figures:
+******************************************
+
+NOTE: Sometimes results are reported for the T1 and T2 groups seperately and then pooled in sheet 2 of an excel file. We report the pooled results.
+
+FIRST: data_prep.do produces the final_lk.dta dataset needed to for the final analysis.
+
+Table number	Do file(s)			Output folder		Output file(s)				Additional info
+1		T1_Balance			Tables			Balance, Balance2		
+2		T2_NCOutcomes			Tables			s9_ncanthro_p			
+3		T3_Knowledge			Tables			wkaps_p, mkaps_p, wkaps_test		see sheet 2 for results (pooled) in wkaps_p and mkaps_p. wkaps = wife, mkaps = husband
+4		T4_NCPracandHealth 		Tables			nc_practices_p				Reported means in output are control at midline. Table in paper report at baseline.
+5		T5_DietandSec			Tables			s6_ncdiet_p
+6		T6_Seasonality			Tables			foodsec_p
+7		T7_Labour			Tables			work_woman_p, work_husband_p	 	see sheet 2 for results (pooled) 
+8		T8_ConsInvSav			Tables			finances_p				see sheet 2 for results (pooled)
+9		T9_IRR				Excel Files		forIRR					tables produced are then used in Excel calculations
+A1		No relevant 			NA			NA					Information about the programme
+A2		TA2_Attrition			Tables			attrition_p
+A3		TA3_Takeup			Tables			Takeup_pool		
+A4		TA4_InfoExposure		Tables			Exposure
+A5		TA5_Recall			Tables			Recall_detail
+A6		TA6_AnthroRobus			Tables			nc_athro_age_p, s9_ncanthro_append_agecube_p, cf_output
+A7		TA7_AnthroGender		Tables			ncanthro_f_p, nc_anthro_m_p, ncanthro_gendertest
+A8		TA8_ASQandTime			Tables			nctimeandasq_p
+A9		TA9_Diet			Tables			ncdiet_p, fexp_p
+A10		T5_DietandSec			Tables			foodsec_p
+A11		TA11_Livestock			Tables			livestock_hh_p, ls_wom_p
+A12		TA12_LivestockPrices		Tables			sumstats_livestock 
+A13		TA13_WAnthro			Tables			wanthro_p
+A14		TA14_SavandBorrow		Tables			financesd_p				see sheet 2 for results (pooled)
+A15A		TA15_LASSO			Tables			LASSO
+A15B		TA15_LASSO			Tables			LASSO
+A16		TA16_RW				Tables			Actual*, Dist*				need to then input to R with provided R code
+A17A		TA17_T1T2			Tables			ncoutcomes_t1t2				see sheet 1 for results (split T1 and T2)
+A17B		TA17_T1T2			Tables			ncoutcomes_t1t2				see sheet 1 for results (split T1 and T2)
+
+Figure number
+1		NA				NA			NA					Created by authors using information on the CDGP programme.
+2		F_HAZ				Graphs			haz_oc_w2_cdf, haz_w3_cdf
+3		F3_LivestockDietFoodexp		Tables			producing_livestock_p, diet_p		Data produced to create figure in excel			
+4		F_Outcomes			NA			NA					Figures are produced but not stored as some manual formatting in STATA is done before saving
+A1		FA1_Motivation			NA			NA					Figures are produced but not stored as some manual formatting in STATA is done before saving		
+A2		NA				NA			NA					Example poster from CDGP Programme
+A3		TA5_Recall			Tables			Recall_detail				Figure produced from data in Excel						
+A4		F_HAZ				Graphs			anthro_oc.eps			
+A5		FA5_Vaccination			Graphs			nc_vacc.eps
+
